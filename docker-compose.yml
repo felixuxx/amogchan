@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3000
+      - DATABASE_URL=sqlite:./data.db
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY:-your-base64-encoded-32-byte-encryption-key-here}
+      - SESSION_SECRET=${SESSION_SECRET:-your-session-secret-here}
+      - MATRIX_HOMESERVER_URL=${MATRIX_HOMESERVER_URL:-https://matrix.org}
+      - MATRIX_USER_ID=${MATRIX_USER_ID:-@bot:matrix.org}
+      - MATRIX_ACCESS_TOKEN=${MATRIX_ACCESS_TOKEN}
+      - MATRIX_DEVICE_ID=${MATRIX_DEVICE_ID}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
