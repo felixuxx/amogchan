@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypted Social Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .welcome {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .welcome h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .welcome p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .feature-card ul {
+            list-style: none;
+        }
+
+        .feature-card li {
+            margin: 0.5rem 0;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .feature-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .api-section {
+            margin-top: 4rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            color: white;
+        }
+
+        .api-section h3 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .api-endpoints {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .endpoint {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .method {
+            color: #4ade80;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .method.post { color: #fbbf24; }
+        .method.delete { color: #ef4444; }
+
+        footer {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .status {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(34, 197, 94, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .welcome h2 {
+                font-size: 2rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="status" id="status">🔗 Checking connection...</div>
+
+    <header>
+        <div class="header-content">
+            <h1>🔒 Encrypted Social Platform</h1>
+            <div class="auth-buttons">
+                <button onclick="window.location.href='/api/boards'">View Boards</button>
+                <button onclick="showRegister()">Register</button>
+                <button onclick="showLogin()">Login</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="welcome">
+            <h2>Secure • Anonymous • Encrypted</h2>
+            <p>
+                A modern social platform combining the anonymity of 4chan with the security of WhatsApp,
+                powered by the Matrix protocol for end-to-end encrypted communications.
+            </p>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>🗣️ 4chan-style Features</h3>
+                <ul>
+                    <li>Anonymous boards and discussions</li>
+                    <li>Threaded conversations</li>
+                    <li>Image and media sharing</li>
+                    <li>Real-time updates</li>
+                    <li>Custom board creation</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <h3>💬 WhatsApp-style Messaging</h3>
+                <ul>
+                    <li>Private direct messages</li>
+                    <li>Encrypted group chats</li>
+                    <li>Media sharing</li>
+                    <li>User presence</li>
+                    <li>Message replies</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <h3>🔐 Security Features</h3>
+                <ul>
+                    <li>End-to-end encryption</li>
+                    <li>Matrix protocol integration</li>
+                    <li>Anonymous posting</li>
+                    <li>Secure authentication</li>
+                    <li>No tracking or ads</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h3>🔧 API Endpoints</h3>
+            <p>RESTful API for developers and third-party clients</p>
+            
+            <div class="api-endpoints">
+                <div class="endpoint">
+                    <span class="method post">POST</span>/api/auth/register
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>/api/auth/login
+                </div>
+                <div class="endpoint">
+                    <span class="method">GET</span>/api/boards
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>/api/boards
+                </div>
+                <div class="endpoint">
+                    <span class="method">GET</span>/api/chats
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>/api/chats
+                </div>
+                <div class="endpoint">
+                    <span class="method">GET</span>/api/health
+                </div>
+                <div class="endpoint">
+                    <span class="method">GET</span>/api/auth/me
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Encrypted Social Platform • Built with Rust & Matrix Protocol</p>
+        <p>Open source • Secure • Anonymous • No tracking</p>
+    </footer>
+
+    <script>
+        // Check server health
+        async function checkHealth() {
+            try {
+                const response = await fetch('/health');
+                const status = document.getElementById('status');
+                if (response.ok) {
+                    status.textContent = '✅ Server Online';
+                    status.style.background = 'rgba(34, 197, 94, 0.9)';
+                } else {
+                    status.textContent = '⚠️ Server Issues';
+                    status.style.background = 'rgba(245, 158, 11, 0.9)';
+                }
+            } catch (error) {
+                const status = document.getElementById('status');
+                status.textContent = '❌ Server Offline';
+                status.style.background = 'rgba(239, 68, 68, 0.9)';
+            }
+        }
+
+        function showRegister() {
+            alert('Registration would open a form or redirect to /register');
+        }
+
+        function showLogin() {
+            alert('Login would open a form or redirect to /login');
+        }
+
+        // Check health on load
+        checkHealth();
+        
+        // Recheck every 30 seconds
+        setInterval(checkHealth, 30000);
+    </script>
+</body>
+</html>
